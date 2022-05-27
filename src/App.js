@@ -14,7 +14,6 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
-      isSaveButtonDisabled: true,
     };
   }
 
@@ -23,28 +22,34 @@ class App extends React.Component {
     const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState(() => ({
       [name]: value,
-    }), () => {
-      const {
-        cardName,
-        cardDescription,
-        cardImage,
-        cardRare,
-      } = this.state;
-      const inputs = [cardName, cardDescription, cardImage, cardRare];
-      inputs.every((input) => {
-        if (input !== '') {
-          this.setState({ isSaveButtonDisabled: false });
-        }
-        return false;
-      });
-      inputs.some((input) => {
-        if (input.length === 0) {
-          this.setState({ isSaveButtonDisabled: true });
-        }
-        return false;
-      });
-    });
+    }));
   }
+
+  isSaveButtonDisabled = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+    } = this.state;
+
+    const maxValue = 90;
+    const minValue = 0;
+    const totalValue = 210;
+    if (cardName && cardDescription && cardImage !== ''
+    && cardAttr1 <= maxValue && cardAttr1 >= minValue
+    && cardAttr2 <= maxValue && cardAttr2 >= minValue
+    && cardAttr3 <= maxValue && cardAttr3 >= minValue
+    && parseInt(cardAttr1, 10)
+    + parseInt(cardAttr2, 10)
+    + parseInt(cardAttr3, 10) <= totalValue
+    ) {
+      return false;
+    }
+    return true;
+  };
 
   render() {
     const {
@@ -56,7 +61,6 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      isSaveButtonDisabled,
     } = this.state;
     return (
       <div>
@@ -71,7 +75,7 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
+          isSaveButtonDisabled={ this.isSaveButtonDisabled() }
         />
         <Card
           cardName={ cardName }
