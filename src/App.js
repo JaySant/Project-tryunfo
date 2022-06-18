@@ -14,18 +14,20 @@ class App extends React.Component {
       cardImage: '',
       cardRare: 'normal',
       cardTrunfo: false,
+      listCard: [],
+      isSaveButtonDisabled: true,
     };
   }
 
   onInputChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState(() => ({
+    this.setState({
       [name]: value,
-    }));
+    }, this.validateButtonDisabled);
   }
 
-  isSaveButtonDisabled = () => {
+  validateButtonDisabled = () => {
     const {
       cardName,
       cardDescription,
@@ -38,6 +40,7 @@ class App extends React.Component {
     const maxValue = 90;
     const minValue = 0;
     const totalValue = 210;
+
     if (cardName && cardDescription && cardImage !== ''
     && cardAttr1 <= maxValue && cardAttr1 >= minValue
     && cardAttr2 <= maxValue && cardAttr2 >= minValue
@@ -46,9 +49,43 @@ class App extends React.Component {
     + parseInt(cardAttr2, 10)
     + parseInt(cardAttr3, 10) <= totalValue
     ) {
-      return false;
+      this.setState({ isSaveButtonDisabled: false });
+    } else {
+      this.setState({ isSaveButtonDisabled: true });
     }
-    return true;
+  };
+
+  onSaveButtonClick = () => {
+    const {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardRare,
+      listCard,
+    } = this.state;
+
+    const obj = {
+      cardName,
+      cardDescription,
+      cardImage,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardRare,
+    };
+    this.setState({
+      listCard: [...listCard, [obj]],
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: 0,
+      cardAttr2: 0,
+      cardAttr3: 0,
+      cardImage: '',
+      cardRare: 'normal',
+    });
   };
 
   render() {
@@ -61,6 +98,7 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      isSaveButtonDisabled,
     } = this.state;
     return (
       <div>
@@ -75,7 +113,8 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
           onInputChange={ this.onInputChange }
-          isSaveButtonDisabled={ this.isSaveButtonDisabled() }
+          isSaveButtonDisabled={ isSaveButtonDisabled }
+          onSaveButtonClick={ this.onSaveButtonClick }
         />
         <Card
           cardName={ cardName }
