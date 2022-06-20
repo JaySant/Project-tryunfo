@@ -28,13 +28,6 @@ class App extends React.Component {
     }, this.validateButtonDisabled);
   }
 
-  cardValidateTrunfo = () => {
-    const { cardTrunfo } = this.state;
-    if (cardTrunfo === true) {
-      this.setState({ hasTrunfo: true });
-    }
-  }
-
   validateButtonDisabled = () => {
     const {
       cardName,
@@ -85,7 +78,7 @@ class App extends React.Component {
       cardAttr3,
       cardRare,
     };
-    
+
     this.setState({
       listCard: [...listCard, [obj]],
       cardName: '',
