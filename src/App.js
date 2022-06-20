@@ -16,6 +16,7 @@ class App extends React.Component {
       cardTrunfo: false,
       listCard: [],
       isSaveButtonDisabled: true,
+      hasTrunfo: false,
     };
   }
 
@@ -25,6 +26,13 @@ class App extends React.Component {
     this.setState({
       [name]: value,
     }, this.validateButtonDisabled);
+  }
+
+  cardValidateTrunfo = () => {
+    const { cardTrunfo } = this.state;
+    if (cardTrunfo === true) {
+      this.setState({ hasTrunfo: true });
+    }
   }
 
   validateButtonDisabled = () => {
@@ -65,6 +73,7 @@ class App extends React.Component {
       cardAttr3,
       cardRare,
       listCard,
+      cardTrunfo,
     } = this.state;
 
     const obj = {
@@ -76,6 +85,7 @@ class App extends React.Component {
       cardAttr3,
       cardRare,
     };
+    
     this.setState({
       listCard: [...listCard, [obj]],
       cardName: '',
@@ -85,7 +95,11 @@ class App extends React.Component {
       cardAttr3: 0,
       cardImage: '',
       cardRare: 'normal',
+      cardTrunfo: 'false',
     });
+    if (cardTrunfo === true) {
+      this.setState({ hasTrunfo: true });
+    }
   };
 
   render() {
@@ -98,6 +112,7 @@ class App extends React.Component {
       cardImage,
       cardRare,
       cardTrunfo,
+      hasTrunfo,
       isSaveButtonDisabled,
     } = this.state;
     return (
@@ -112,6 +127,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          hasTrunfo={ hasTrunfo }
           onInputChange={ this.onInputChange }
           isSaveButtonDisabled={ isSaveButtonDisabled }
           onSaveButtonClick={ this.onSaveButtonClick }
@@ -125,6 +141,7 @@ class App extends React.Component {
           cardImage={ cardImage }
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
+          hasTrunfo={ hasTrunfo }
         />
       </div>
     );
@@ -132,3 +149,5 @@ class App extends React.Component {
 }
 
 export default App;
+
+// Obrigada Carla Heyde turma 20A pela ajuda com as props;
