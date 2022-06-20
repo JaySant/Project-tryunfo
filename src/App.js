@@ -80,7 +80,7 @@ class App extends React.Component {
     };
 
     this.setState({
-      listCard: [...listCard, [obj]],
+      listCard: [...listCard, obj],
       cardName: '',
       cardDescription: '',
       cardAttr1: 0,
@@ -106,6 +106,7 @@ class App extends React.Component {
       cardRare,
       cardTrunfo,
       hasTrunfo,
+      listCard,
       isSaveButtonDisabled,
     } = this.state;
     return (
@@ -136,6 +137,19 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
         />
+        {listCard.map((item, index) => (
+          <Card
+            key={ index }
+            cardName={ item.cardName }
+            cardDescription={ item.cardDescription }
+            cardAttr1={ item.cardAttr1 }
+            cardAttr2={ item.cardAttr2 }
+            cardAttr3={ item.cardAttr3 }
+            cardImage={ item.cardImage }
+            cardRare={ item.cardRare }
+            cardTrunfo={ item.cardTrunfo }
+          />
+        ))}
       </div>
     );
   }
