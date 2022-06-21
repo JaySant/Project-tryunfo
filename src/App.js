@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from './components/Form';
 import Card from './components/Card';
+import FilterCards from './components/FilterCards';
 
 class App extends React.Component {
   constructor() {
@@ -17,6 +18,7 @@ class App extends React.Component {
       listCard: [],
       isSaveButtonDisabled: true,
       hasTrunfo: false,
+      filterName: '',
     };
     this.deleteButton = this.deleteButton.bind(this);
   }
@@ -119,6 +121,7 @@ class App extends React.Component {
       hasTrunfo,
       listCard,
       isSaveButtonDisabled,
+      filterName,
     } = this.state;
     return (
       <div>
@@ -148,28 +151,34 @@ class App extends React.Component {
           cardTrunfo={ cardTrunfo }
           hasTrunfo={ hasTrunfo }
         />
-        {listCard.map((item, index) => (
-          <div key={ index }>
-            <Card
-              cardName={ item.cardName }
-              cardDescription={ item.cardDescription }
-              cardAttr1={ item.cardAttr1 }
-              cardAttr2={ item.cardAttr2 }
-              cardAttr3={ item.cardAttr3 }
-              cardImage={ item.cardImage }
-              cardRare={ item.cardRare }
-              cardTrunfo={ item.cardTrunfo }
+        <FilterCards
+          filterName={ filterName }
+          onInputChange={ this.onInputChange }
+        />
+        {listCard.filter((item) => item.cardName
+          .includes(filterName))
+          .map((item) => (
+            <div key={ item.cardName }>
+              <Card
+                cardName={ item.cardName }
+                cardDescription={ item.cardDescription }
+                cardAttr1={ item.cardAttr1 }
+                cardAttr2={ item.cardAttr2 }
+                cardAttr3={ item.cardAttr3 }
+                cardImage={ item.cardImage }
+                cardRare={ item.cardRare }
+                cardTrunfo={ item.cardTrunfo }
 
-            />
-            <button
-              type="button"
-              data-testid="delete-button"
-              onClick={ () => this.deleteButton(item) }
-            >
-              Excluir
-            </button>
-          </div>
-        ))}
+              />
+              <button
+                type="button"
+                data-testid="delete-button"
+                onClick={ () => this.deleteButton(item) }
+              >
+                Excluir
+              </button>
+            </div>
+          ))}
       </div>
     );
   }
