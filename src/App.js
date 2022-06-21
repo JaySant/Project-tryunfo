@@ -19,6 +19,7 @@ class App extends React.Component {
       isSaveButtonDisabled: true,
       hasTrunfo: false,
       filterName: '',
+      filterRare: 'todas',
     };
     this.deleteButton = this.deleteButton.bind(this);
   }
@@ -122,6 +123,7 @@ class App extends React.Component {
       listCard,
       isSaveButtonDisabled,
       filterName,
+      filterRare,
     } = this.state;
     return (
       <div>
@@ -153,10 +155,12 @@ class App extends React.Component {
         />
         <FilterCards
           filterName={ filterName }
+          filterRare={ filterRare }
           onInputChange={ this.onInputChange }
         />
         {listCard.filter((item) => item.cardName
           .includes(filterName))
+          .filter((item) => ((filterRare === 'todas') || (item.cardRare === filterRare)))
           .map((item) => (
             <div key={ item.cardName }>
               <Card
